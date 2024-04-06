@@ -20,6 +20,7 @@ def get_db():
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
+URL_DATABASE = 'mysql+pymysql://root@localhost:3306/AllYouChat'
 
 @app.get("/")
 async def root():
