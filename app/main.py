@@ -2,26 +2,23 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from pydantic import BaseModel
 from typing import Annotated
 import models
-from database import engine, SessionLocal
-from sqlalchemy.orm import Session
-from classes import MessageBase, UserBase
+from database import engine
+from users.router import router as users_router
 
 
 app = FastAPI()
 
 models.Base.metadata.create_all(bind = engine)
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db()
-    finally:
-        db.close()
 
-db_dependency = Annotated[Session, Depends(get_db)]
+## This is to define prefix
+# main_router = APIRouter(prefix="/allyouchat")
 
-URL_DATABASE = 'mysql+pymysql://root@localhost:3306/AllYouChat'
+app = FastAPI()
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+
+app.include_router(users_router)
