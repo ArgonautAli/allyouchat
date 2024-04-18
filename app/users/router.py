@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy import select
-from classes import UserBase
+from classes import UserBase, UserRequest
 from uuid import uuid4
 from database import db_dependency, db
 import models
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/user")
 
 
 @router.post("/create")
-async def create_user(req: Request, body: UserBase):
+async def create_user(req: Request, body: UserRequest):
     user_name = body.user_name
     user_id = uuid4()
     user: UserBase = {"user_name": user_name,"id": user_id}
